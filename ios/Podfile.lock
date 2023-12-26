@@ -1,0 +1,31 @@
+PODS:
+  - botion_flutter_plugin (0.0.2):
+    - BotionCaptcha-xcframework
+    - Flutter
+  - BotionCaptcha-xcframework (1.0.3):
+    - BotionCaptcha-xcframework/Main (= 1.0.3)
+  - BotionCaptcha-xcframework/Main (1.0.3)
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - botion_flutter_plugin (from `.symlinks/plugins/botion_flutter_plugin/ios`)
+  - Flutter (from `Flutter`)
+
+SPEC REPOS:
+  trunk:
+    - BotionCaptcha-xcframework
+
+EXTERNAL SOURCES:
+  botion_flutter_plugin:
+    :path: ".symlinks/plugins/botion_flutter_plugin/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  botion_flutter_plugin: 083bf44aee084f88d98f45d2e0a5809deba47e38
+  BotionCaptcha-xcframework: e69d7147a4cef93b5f1b124b3f53272a6d003964
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+
+PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+
+COCOAPODS: 1.13.0
