@@ -21,11 +21,11 @@ class UserRepository extends Equatable {
         token: data?['token'] as String?,
         data: data?['data'] == null
             ? null
-            : Data.fromMap(data?['data'] as Map<String, dynamic>),
+            : Patient.fromMap(data?['data'] as Map<String, dynamic>),
       );
   final String? status;
   final String? token;
-  final Data? data;
+  final Patient? data;
   final _patientController = StreamController<UserRepository>();
   Stream<UserRepository> get patient async* {
     yield* _patientController.stream;
@@ -45,7 +45,7 @@ class UserRepository extends Equatable {
   UserRepository copyWith({
     String? status,
     String? token,
-    Data? data,
+    Patient? data,
   }) {
     return UserRepository(
       status: status ?? this.status,

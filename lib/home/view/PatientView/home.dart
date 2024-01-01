@@ -13,7 +13,8 @@ class PatientHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DoctorListCubit()..getDoctor(context.read<AuthenticationBloc>().pat!.token!, ""),
+      create: (context) => DoctorListCubit()
+        ..getDoctor(context.read<AuthenticationBloc>().pat!.token!, ""),
       child: Column(
         children: [
           Container(width: 20.screenWidth),

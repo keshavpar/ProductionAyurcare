@@ -4,18 +4,17 @@ import 'package:equatable/equatable.dart';
 
 import 'package:user_repository/src/models/patient/user.dart';
 
-class Data extends Equatable {
-
-  const Data({this.user});
+class Patient extends Equatable {
+  const Patient({this.user});
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [Data].
-  factory Data.fromJson(String data) {
-    return Data.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [Patient].
+  factory Patient.fromJson(String data) {
+    return Patient.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
-  factory Data.fromMap(Map<String, dynamic> data) => Data(
+  factory Patient.fromMap(Map<String, dynamic> data) => Patient(
         user: data['user'] == null
             ? null
             : User.fromMap(data['user'] as Map<String, dynamic>),
@@ -28,13 +27,13 @@ class Data extends Equatable {
 
   /// `dart:convert`
   ///
-  /// Converts [Data] to a JSON string.
+  /// Converts [Patient] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  Data copyWith({
+  Patient copyWith({
     User? user,
   }) {
-    return Data(
+    return Patient(
       user: user ?? this.user,
     );
   }

@@ -4,7 +4,6 @@ import 'package:ayurcareprod/home/models/bottomnavbar.dart';
 import 'package:ayurcareprod/home/view/PatientView/blog.dart';
 import 'package:ayurcareprod/home/view/PatientView/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PatientView extends StatelessWidget {

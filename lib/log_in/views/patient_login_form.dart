@@ -227,7 +227,7 @@ class _LoginButton extends StatelessWidget {
                     }
                   : null,
               style: ElevatedButton.styleFrom(
-                primary: Colors
+                backgroundColor: Colors
                     .transparent, // Set the button's background color to transparent
                 elevation: 0, // Remove the button's elevation
                 shape: RoundedRectangleBorder(

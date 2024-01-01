@@ -14,11 +14,10 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomePage(
-      role: (context.read<AuthenticationBloc>().pat!.data!.user!.role ==
-              Role.patient.name
-          ? Role.patient
-          : Role.doctor),
-    );
+    if (context.read<AuthenticationBloc>().doc == null) {
+      return const HomePage(role: Role.patient);
+    } else {
+      return const HomePage(role: Role.doctor);
+    }
   }
 }

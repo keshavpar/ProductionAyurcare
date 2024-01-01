@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:ayurcareprod/home/models/doctor_model/doctor.dart';
+
 import 'package:ayurcareprod/home/models/pagestate.dart';
 import 'package:ayurcareprod/home/repository/doctor_repository.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'doctor_list_state.dart';
 
@@ -15,20 +16,22 @@ class DoctorListCubit extends Cubit<DoctorListState> {
   }
 
   void getDoctor(String token, String? qt) async {
-    var response;
+    Object? response;
     try {
       emit(state.copyWith(state: PageState.loading));
       PatientRepository patRepo = PatientRepository(token: "Bearer $token");
       response = await patRepo.getDoctors();
-      if (response!.isNotEmpty) {
-        response = DoctorListState.fromMap(response);
-        updateDoctor(response as DoctorListState);
+      DoctorListState value =
+          DoctorListState.fromMap(response as Map<String, dynamic>?);
+      if (value.status == "success") {
+        updateDoctor(value);
         if (qt != null) {
           emit(state.copyWith(
               state: PageState.success,
               doctors: state.doctors!
-                  .where((element) =>
-                      element.fname!.toLowerCase().contains(qt.toLowerCase()))
+                  .where((element) => element.fullname!
+                      .toLowerCase()
+                      .contains(qt.toLowerCase()))
                   .toList()));
         }
 

@@ -4,12 +4,17 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:user_repository/user_repository.dart';
 
-enum AuthenticationStatus { unknown, authenticated, unauthenticated }
+enum AuthenticationStatus {
+  unknown,
+  authenticateduser,
+  authenticatedDoc,
+  unauthenticated
+}
 
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
   String api = 'http://3.7.69.241:3000/api/v1';
-
+  final _doctorController = StreamController<Doctor>();
   final _patientController = StreamController<UserRepository>();
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
@@ -21,6 +26,10 @@ class AuthenticationRepository {
     yield* _patientController.stream;
   }
 
+  Stream<Doctor> get doctor async* {
+    yield* _doctorController.stream;
+  }
+
 //Login Request
   Future<void> logIn({
     required String email,
@@ -28,19 +37,41 @@ class AuthenticationRepository {
     required String role,
   }) async {
     final url = '$api/$role/login';
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json; charset=utf-8'},
-      body: json.encode({'email': email, 'password': password}),
-    );
-    final result = await jsonDecode(response.body);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final parsed = UserRepository.fromMap(result as Map<String, dynamic>?);
-      _patientController.add(parsed);
-      _controller.add(AuthenticationStatus.authenticated);
-    } else {
-      _controller.add(AuthenticationStatus.unauthenticated);
-      log(response.body);
+
+    switch (role) {
+      //For Patient Login
+      case 'patient':
+        final response = await http.post(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=utf-8'},
+          body: json.encode({'email': email, 'password': password}),
+        );
+        final result = await jsonDecode(response.body);
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          final parsed =
+              UserRepository.fromMap(result as Map<String, dynamic>?);
+          _patientController.add(parsed);
+          return _controller.add(AuthenticationStatus.authenticateduser);
+        } else {
+          log(response.body);
+          return _controller.add(AuthenticationStatus.unauthenticated);
+        }
+      //For Doctor Login
+      case 'doctor':
+        final response = await http.post(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=utf-8'},
+          body: json.encode({'email': email, 'password': password}),
+        );
+        final result = await jsonDecode(response.body);
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          final parsed = Doc.fromMap(result as Map<String, dynamic>);
+          _doctorController.add(parsed.doct!);
+          return _controller.add(AuthenticationStatus.authenticatedDoc);
+        } else {
+          log(response.body);
+          return _controller.add(AuthenticationStatus.unauthenticated);
+        }
     }
   }
 
@@ -54,26 +85,54 @@ class AuthenticationRepository {
     required String role,
   }) async {
     final url = '$api/$role/signup';
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json; charset=utf-8'},
-      body: json.encode({
-        'lname': lname,
-        'fname': fname,
-        'email': email,
-        'password': password,
-        'passwordConfirm': confirmpassword,
-        'role': role,
-      }),
-    );
-    final result = await jsonDecode(response.body);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final parsed = UserRepository.fromMap(result as Map<String, dynamic>?);
-      _patientController.add(parsed);
-      _controller.add(AuthenticationStatus.authenticated);
-    } else {
-      _controller.add(AuthenticationStatus.unauthenticated);
-      log(response.body);
+
+    switch (role) {
+      case 'doctor':
+        final response = await http.post(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=utf-8'},
+          body: json.encode({
+            'lname': lname,
+            'fname': fname,
+            'email': email,
+            'password': password,
+            'passwordConfirm': confirmpassword,
+            'role': role,
+          }),
+        );
+        final result = await jsonDecode(response.body);
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          final parsed = Doctor.fromMap(result as Map<String, dynamic>);
+          _doctorController.add(parsed);
+          return _controller.add(AuthenticationStatus.authenticatedDoc);
+        } else {
+          log(response.body);
+          return _controller.add(AuthenticationStatus.unauthenticated);
+        }
+
+      case 'patient':
+        final response = await http.post(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=utf-8'},
+          body: json.encode({
+            'lname': lname,
+            'fname': fname,
+            'email': email,
+            'password': password,
+            'passwordConfirm': confirmpassword,
+            'role': role,
+          }),
+        );
+        final result = await jsonDecode(response.body);
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          final parsed =
+              UserRepository.fromMap(result as Map<String, dynamic>?);
+          _patientController.add(parsed);
+          return _controller.add(AuthenticationStatus.authenticateduser);
+        } else {
+          log(response.body);
+          return _controller.add(AuthenticationStatus.unauthenticated);
+        }
     }
   }
 

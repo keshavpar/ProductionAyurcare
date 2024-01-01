@@ -1,33 +1,39 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ayurcareprod/home/models/doctor_model/doctor.dart';
+import 'dart:developer';
+
+import 'package:ayurcareprod/Patient/views/appointment_booking.dart';
+
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:user_repository/user_repository.dart';
 
 class DoctorContainer extends StatelessWidget {
   final Doctor doc;
-  final String lname;
-  final String fname;
+  final String firstName;
   final String img;
   final String raiting;
-  // final String address;
-  // final String specialty;
+  final String address;
+  final String specialty;
 
   const DoctorContainer({
     Key? key,
-    required this.lname,
-    required this.fname,
+    required this.firstName,
     required this.img,
-    required this.raiting, required this.doc,
-    // required this.address,
-    // required this.specialty,
+    required this.raiting,
+    required this.doc,
+    required this.address,
+    required this.specialty,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        
-
+        log("Page Shifted from the Home Page to the Appointment Booking for Doctor $firstName");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AppointmentDoctor(doc: doc)));
       },
       child: Container(
         margin: const EdgeInsets.all(10),
@@ -56,9 +62,27 @@ class DoctorContainer extends StatelessWidget {
                 top: 2.screenHeight,
                 left: 40.screenWidth,
                 child: Column(children: [
-                  Text('$fname  $lname'),
-                  // Text(specialty),
-                  // Text(address)
+                  Text(firstName),
+                  SizedBox(
+                    height: 0.1.screenHeight,
+                  ),
+                  Text(specialty),
+                  SizedBox(
+                    height: 0.1.screenHeight,
+                  ),
+                  Text(address),
+                  SizedBox(
+                    height: 0.1.screenHeight,
+                  ),
+                  Row(
+                    children: [
+                      Text(raiting),
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow[400],
+                      )
+                    ],
+                  ),
                 ]),
               ),
             ],

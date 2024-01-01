@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class DoctorView extends StatelessWidget {
   const DoctorView({super.key});
@@ -7,7 +6,7 @@ class DoctorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: const Column(
         children: [],
       ),
       bottomNavigationBar:
