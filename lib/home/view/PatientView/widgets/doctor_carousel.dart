@@ -1,4 +1,4 @@
-import 'package:ayurcareprod/home/blocs/cubit/doctor_list_cubit.dart';
+import 'package:ayurcareprod/home/blocs/cubit/doctor_list/doctor_list_cubit.dart';
 import 'package:ayurcareprod/home/view/PatientView/widgets/doctor_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

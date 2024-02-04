@@ -14,8 +14,8 @@ enum AuthenticationStatus {
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
   String api = 'http://3.7.69.241:3000/api/v1';
-  final _doctorController = StreamController<Doctor>();
   final _patientController = StreamController<UserRepository>();
+  final _docController = StreamController<Doc>();
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.unauthenticated;
@@ -26,8 +26,8 @@ class AuthenticationRepository {
     yield* _patientController.stream;
   }
 
-  Stream<Doctor> get doctor async* {
-    yield* _doctorController.stream;
+  Stream<Doc> get doc async* {
+    yield* _docController.stream;
   }
 
 //Login Request
@@ -66,7 +66,7 @@ class AuthenticationRepository {
         final result = await jsonDecode(response.body);
         if (response.statusCode == 200 || response.statusCode == 201) {
           final parsed = Doc.fromMap(result as Map<String, dynamic>);
-          _doctorController.add(parsed.doct!);
+          _docController.add(parsed);
           return _controller.add(AuthenticationStatus.authenticatedDoc);
         } else {
           log(response.body);
@@ -102,8 +102,9 @@ class AuthenticationRepository {
         );
         final result = await jsonDecode(response.body);
         if (response.statusCode == 200 || response.statusCode == 201) {
-          final parsed = Doctor.fromMap(result as Map<String, dynamic>);
-          _doctorController.add(parsed);
+          final parsed = Doc.fromMap(result as Map<String, dynamic>);
+          _docController.add(parsed);
+
           return _controller.add(AuthenticationStatus.authenticatedDoc);
         } else {
           log(response.body);

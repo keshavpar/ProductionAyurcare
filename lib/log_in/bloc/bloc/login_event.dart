@@ -50,7 +50,7 @@ class LoginSubmitted extends SignUpEvent {
   );
   final Role role;
 
-  @override
+
   @override
   String toString() => 'LoginSubmitted(role: $role)';
 }

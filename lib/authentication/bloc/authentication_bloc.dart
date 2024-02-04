@@ -1,5 +1,6 @@
 import 'dart:async';
 
+
 import 'package:authentication_repository/authentication_repository.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +12,22 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
+  final AuthenticationRepository _authenticationRepository;
+  final UserRepository userRepository;
+
+  late StreamSubscription<AuthenticationStatus>
+      _authenticationStatusSubscription;
+  late StreamSubscription<UserRepository> patientStreamRepo;
+
+  late StreamSubscription<Doc> doctorStream;
+  Doctor? doc;
+  UserRepository? pat;
+  Doc? doctortoken;
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
     required UserRepository patientRepository,
   })  : _authenticationRepository = authenticationRepository,
-        _userRepository = patientRepository,
+        userRepository = patientRepository,
         super(const AuthenticationState.unknown()) {
     on<_AuthenticationUserStatusChanged>(_onAuthenticationUserStatusChanged);
     on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
@@ -24,23 +36,14 @@ class AuthenticationBloc
       (status) => add(_AuthenticationUserStatusChanged(status, pat)),
     );
 
-    _patientRepository = _authenticationRepository.patient.listen((event) {
+    patientStreamRepo = _authenticationRepository.patient.listen((event) {
       pat = event;
     });
-    _docRepository = _authenticationRepository.doctor.listen((event) {
-      doc = event;
+
+    doctorStream = _authenticationRepository.doc.listen((event) {
+      doctortoken = event;
     });
   }
-
-  final AuthenticationRepository _authenticationRepository;
-  final UserRepository _userRepository;
-
-  late StreamSubscription<AuthenticationStatus>
-      _authenticationStatusSubscription;
-  late StreamSubscription<UserRepository> _patientRepository;
-  late StreamSubscription<Doctor> _docRepository;
-  Doctor? doc;
-  UserRepository? pat;
 
   @override
   Future<void> close() {
@@ -65,10 +68,12 @@ class AuthenticationBloc
       case AuthenticationStatus.unknown:
         return emit(const AuthenticationState.unknown());
       case AuthenticationStatus.authenticatedDoc:
-        final doctor = doc;
+
+        final doctorToken = doctortoken;
+
         return emit(
-          doctor != null
-              ? AuthenticationState.authenticatedDoc(doctor)
+          doctorToken != null
+              ? AuthenticationState.authenticatedDoc(doctorToken)
               : const AuthenticationState.unauthenticated(),
         );
     }

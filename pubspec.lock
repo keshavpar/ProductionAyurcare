@@ -48,6 +48,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
+  calendar_date_picker2:
+    dependency: "direct main"
+    description:
+      name: calendar_date_picker2
+      sha256: b91d51b8d0928f9745e0113e86d06b161ac48c52b7530337a3b77283cbc6be27
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
   characters:
     dependency: transitive
     description:
@@ -88,6 +96,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  cupertino_stepper:
+    dependency: "direct main"
+    description:
+      name: cupertino_stepper
+      sha256: "124690b8b23db7b43fc6d547688e42a9f3d73c8f46d0b210568e98a04b5645b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   dark_light_button:
     dependency: "direct main"
     description:
@@ -117,6 +133,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_analog_clock:
+    dependency: "direct main"
+    description:
+      name: flutter_analog_clock
+      sha256: "5bf40195f93ff366c73c628e83fc5b380b9639121db77d30a68a12b442e89487"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -154,6 +178,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.1"
+  get_it:
+    dependency: "direct main"
+    description:
+      name: get_it
+      sha256: e6017ce7fdeaf218dc51a100344d8cb70134b80e28b760f8bb23c242437bafd7
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.6.7"
   http:
     dependency: "direct main"
     description:
@@ -170,6 +202,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   lints:
     dependency: transitive
     description:
@@ -234,6 +274,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+  primer_progress_bar:
+    dependency: "direct main"
+    description:
+      name: primer_progress_bar
+      sha256: "5a0480f93d34a73716b0a2ba2893f2d22cb1acf6ebda3644c64fc0a3543ef3bc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   provider:
     dependency: transitive
     description:

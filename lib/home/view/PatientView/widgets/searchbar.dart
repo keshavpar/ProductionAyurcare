@@ -1,5 +1,5 @@
 import 'package:ayurcareprod/authentication/bloc/authentication_bloc.dart';
-import 'package:ayurcareprod/home/blocs/cubit/doctor_list_cubit.dart';
+import 'package:ayurcareprod/home/blocs/cubit/doctor_list/doctor_list_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';

@@ -2,28 +2,10 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class Doctor extends Equatable {
+import 'package:user_repository/src/models/doc/proffesional_certificates.dart';
+import 'package:user_repository/src/models/doc/timing.dart';
 
-  factory Doctor.fromMap(Map<String, dynamic> data) => Doctor(
-        id: data['_id'] as String?,
-        fullname: data['fullname'] as String?,
-        email: data['email'] as String?,
-        address: data['address'] as String?,
-        location: data['location'] as String?,
-        gender: data['gender'] as String?,
-        role: data['role'] as String?,
-        arrayOfPatients: data['arrayOfPatients'] as List<dynamic>?,
-        ratings: data['ratings'] as int?,
-        speciality: data['speciality'] as String?,
-        timing: data['timing'] as List<dynamic>?,
-        avgSlotTiming: data['avgSlotTiming'] as String?,
-        createdAt: data['createdAt'] == null
-            ? null
-            : DateTime.parse(data['createdAt'] as String),
-        updatedAt: data['updatedAt'] == null
-            ? null
-            : DateTime.parse(data['updatedAt'] as String),
-      );
+class Doctor extends Equatable {
 
   const Doctor({
     this.id,
@@ -37,10 +19,43 @@ class Doctor extends Equatable {
     this.ratings,
     this.speciality,
     this.timing,
-    this.avgSlotTiming,
     this.createdAt,
     this.updatedAt,
+    this.proffesionalCertificates,
   });
+
+  factory Doctor.fromMap(Map<String, dynamic> data) => Doctor(
+        id: data['_id'] as String?,
+        fullname: data['fullname'] as String?,
+        email: data['email'] as String?,
+        address: data['address'] as String?,
+        location: data['location'] as String?,
+        gender: data['gender'] as String?,
+        role: data['role'] as String?,
+        arrayOfPatients: data['arrayOfPatients'] as List<dynamic>?,
+        ratings: data['ratings'] as int?,
+        speciality: data['speciality'] as String?,
+        timing: (data['timing'] as List<dynamic>?)
+            ?.map((e) => Timing.fromMap(e as Map<String, dynamic>))
+            .toList(),
+        createdAt: data['createdAt'] == null
+            ? null
+            : DateTime.parse(data['createdAt'] as String),
+        updatedAt: data['updatedAt'] == null
+            ? null
+            : DateTime.parse(data['updatedAt'] as String),
+        proffesionalCertificates: data['proffesionalCertificates'] == null
+            ? null
+            : ProffesionalCertificates.fromMap(
+                data['proffesionalCertificates'] as Map<String, dynamic>,),
+      );
+
+  /// `dart:convert`
+  ///
+  /// Parses the string and returns the resulting Json object as [Doctor].
+  factory Doctor.fromJson(String data) {
+    return Doctor.fromMap(json.decode(data) as Map<String, dynamic>);
+  }
   final String? id;
   final String? fullname;
   final String? email;
@@ -51,10 +66,10 @@ class Doctor extends Equatable {
   final List<dynamic>? arrayOfPatients;
   final int? ratings;
   final String? speciality;
-  final List<dynamic>? timing;
-  final String? avgSlotTiming;
+  final List<Timing>? timing;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final ProffesionalCertificates? proffesionalCertificates;
 
   Map<String, dynamic> toMap() => {
         '_id': id,
@@ -67,18 +82,11 @@ class Doctor extends Equatable {
         'arrayOfPatients': arrayOfPatients,
         'ratings': ratings,
         'speciality': speciality,
-        'timing': timing,
-        'avgSlotTiming': avgSlotTiming,
+        'timing': timing?.map((e) => e.toMap()).toList(),
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
+        'proffesionalCertificates': proffesionalCertificates?.toMap(),
       };
-
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [Doctor].
-  factory Doctor.fromJson(String data) {
-    return Doctor.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
 
   /// `dart:convert`
   ///
@@ -96,10 +104,10 @@ class Doctor extends Equatable {
     List<dynamic>? arrayOfPatients,
     int? ratings,
     String? speciality,
-    List<String>? timing,
-    String? avgSlotTiming,
+    List<Timing>? timing,
     DateTime? createdAt,
     DateTime? updatedAt,
+    ProffesionalCertificates? proffesionalCertificates,
   }) {
     return Doctor(
       id: id ?? this.id,
@@ -113,9 +121,10 @@ class Doctor extends Equatable {
       ratings: ratings ?? this.ratings,
       speciality: speciality ?? this.speciality,
       timing: timing ?? this.timing,
-      avgSlotTiming: avgSlotTiming ?? this.avgSlotTiming,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      proffesionalCertificates:
+          proffesionalCertificates ?? this.proffesionalCertificates,
     );
   }
 
@@ -136,9 +145,9 @@ class Doctor extends Equatable {
       ratings,
       speciality,
       timing,
-      avgSlotTiming,
       createdAt,
       updatedAt,
+      proffesionalCertificates,
     ];
   }
 }

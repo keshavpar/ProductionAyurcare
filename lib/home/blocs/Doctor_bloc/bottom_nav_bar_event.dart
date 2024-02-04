@@ -4,7 +4,9 @@ class BottomNavBarDoctorEvent {
   const BottomNavBarDoctorEvent();
 }
 
-class _BottomNavBarDoctorItemChanged extends BottomNavBarDoctorEvent {
-  const _BottomNavBarDoctorItemChanged(this.items);
-  final BottomNavigationBarDoctorItems items;
+class BottomNavBarDoctorItemChanged extends BottomNavBarDoctorEvent {
+  final int value;
+  BottomNavBarDoctorItemChanged({
+    required this.value,
+  });
 }

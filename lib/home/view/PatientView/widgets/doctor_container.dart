@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
-import 'package:ayurcareprod/Patient/views/appointment_booking.dart';
+import 'package:ayurcareprod/Patient/views/doctor_appt.dart';
 
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -33,7 +33,9 @@ class DoctorContainer extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AppointmentDoctor(doc: doc)));
+                builder: (context) => DoctorAppointmentView(
+                      doc: doc,
+                    )));
       },
       child: Container(
         margin: const EdgeInsets.all(10),

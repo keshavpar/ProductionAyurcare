@@ -3,21 +3,19 @@
 part of 'bottom_nav_bar_bloc.dart';
 
 class BottomNavBarDoctorState extends Equatable {
-  const BottomNavBarDoctorState._(
-      {this.item = BottomNavigationBarDoctorItems.home,
-      this.icon = const Icon(Icons.home)});
+  const BottomNavBarDoctorState._({
+    this.item = BottomNavigationBarDoctorItems.home,
+  });
 
-  const BottomNavBarDoctorState.medication()
-      : this._(
-            item: BottomNavigationBarDoctorItems.medication,
-            icon: const Icon(Icons.medical_services_rounded));
-  const BottomNavBarDoctorState.blog()
-      : this._(
-            item: BottomNavigationBarDoctorItems.blog,
-            icon: const Icon(Icons.message_outlined));
+  const BottomNavBarDoctorState.medication(
+      {this.item = BottomNavigationBarDoctorItems.medication});
+
+  const BottomNavBarDoctorState.blog({
+    this.item = BottomNavigationBarDoctorItems.blog,
+  });
+
   final BottomNavigationBarDoctorItems item;
-  final Icon icon;
 
   @override
-  List<Object> get props => [item, icon];
+  List<Object> get props => [item];
 }

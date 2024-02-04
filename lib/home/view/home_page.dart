@@ -14,9 +14,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return role == Role.doctor
         ? BlocProvider<BottomNavBarDoctorBloc>(
-            create: (_) => BottomNavBarDoctorBloc(), child: const DoctorView())
+            lazy: false,
+            create: (context) => BottomNavBarDoctorBloc(),
+            child: const DoctorView())
         : BlocProvider<BottomNavigationBarPatientBloc>(
-            create: (_) => BottomNavigationBarPatientBloc(),
+            lazy: false,
+            create: (context) => BottomNavigationBarPatientBloc(),
             child: const PatientView(),
           );
   }

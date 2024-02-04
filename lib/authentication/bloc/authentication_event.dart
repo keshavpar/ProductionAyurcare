@@ -15,14 +15,14 @@ class _AuthenticationUserStatusChanged extends AuthenticationEvent {
   final UserRepository? user;
 }
 
-class _AuthenticationDoctorStatusChanged extends AuthenticationEvent {
-  const _AuthenticationDoctorStatusChanged(
-    this.status,
-    this.doc,
-  );
+// class _AuthenticationDoctorStatusChanged extends AuthenticationEvent {
+//   const _AuthenticationDoctorStatusChanged(
+//     this.status,
+//     this.doc,
+//   );
 
-  final AuthenticationStatus status;
-  final Doctor? doc;
-}
+//   final AuthenticationStatus status;
+//   final Doctor? doc;
+// }
 
 class AuthenticationLogoutRequested extends AuthenticationEvent {}

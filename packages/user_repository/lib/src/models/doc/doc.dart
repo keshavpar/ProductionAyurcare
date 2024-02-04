@@ -2,9 +2,19 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'doctor.dart';
+import 'package:user_repository/src/models/doc/user.dart';
 
 class Doc extends Equatable {
+
+  const Doc({this.status, this.token, this.user});
+
+  factory Doc.fromMap(Map<String, dynamic> data) => Doc(
+        status: data['status'] as String?,
+        token: data['token'] as String?,
+        user: data['user'] == null
+            ? null
+            : Doctor.fromMap(data['user'] as Map<String, dynamic>),
+      );
 
   /// `dart:convert`
   ///
@@ -12,24 +22,14 @@ class Doc extends Equatable {
   factory Doc.fromJson(String data) {
     return Doc.fromMap(json.decode(data) as Map<String, dynamic>);
   }
-
-  const Doc({this.status, this.token, this.doct});
-
-  factory Doc.fromMap(Map<String, dynamic> data) => Doc(
-        status: data['status'] as String?,
-        token: data['token'] as String?,
-        doct: data['user'] == null
-            ? null
-            : Doctor.fromMap(data['user'] as Map<String, dynamic>),
-      );
   final String? status;
   final String? token;
-  final Doctor? doct;
+  final Doctor? user;
 
   Map<String, dynamic> toMap() => {
         'status': status,
         'token': token,
-        'user': doct?.toMap(),
+        'user': user?.toMap(),
       };
 
   /// `dart:convert`
@@ -40,12 +40,12 @@ class Doc extends Equatable {
   Doc copyWith({
     String? status,
     String? token,
-    Doctor? doc,
+    Doctor? user,
   }) {
     return Doc(
       status: status ?? this.status,
       token: token ?? this.token,
-      doct: doc ?? this.doct,
+      user: user ?? this.user,
     );
   }
 
@@ -53,5 +53,5 @@ class Doc extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [status, token, doct];
+  List<Object?> get props => [status, token, user];
 }

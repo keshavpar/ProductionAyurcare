@@ -14,7 +14,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.read<AuthenticationBloc>().doc == null) {
+    if (context.read<AuthenticationBloc>().doctortoken == null) {
       return const HomePage(role: Role.patient);
     } else {
       return const HomePage(role: Role.doctor);

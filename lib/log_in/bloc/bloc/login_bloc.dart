@@ -79,5 +79,5 @@ class LoginBloc extends Bloc<SignUpEvent, LoginState> {
   }
 }
 
-Future<void> _onForgotPassword(
-    LoginSubmitted event, Emitter<LoginState> emit) async {}
+// Future<void> _onForgotPassword(
+//     LoginSubmitted event, Emitter<LoginState> emit) async {}
