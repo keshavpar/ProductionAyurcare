@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:ayurcareprod/authentication/bloc/authentication_bloc.dart';
 import 'package:ayurcareprod/home/blocs/cubit/doctor_list/doctor_list_cubit.dart';
 import 'package:ayurcareprod/home/view/PatientView/widgets/doctor_carousel.dart';

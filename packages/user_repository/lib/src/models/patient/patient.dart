@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:user_repository/src/models/patient/data.dart';
+import 'package:user_repository/src/models/patient/user.dart';
 
 class UserRepository extends Equatable {
   UserRepository({this.status, this.token, this.data});
@@ -19,13 +19,13 @@ class UserRepository extends Equatable {
   factory UserRepository.fromMap(Map<String, dynamic>? data) => UserRepository(
         status: data?['status'] as String?,
         token: data?['token'] as String?,
-        data: data?['data'] == null
+        data: data?['user'] == null
             ? null
-            : Patient.fromMap(data?['data'] as Map<String, dynamic>),
+            : User.fromMap(data?['user'] as Map<String, dynamic>),
       );
   final String? status;
   final String? token;
-  final Patient? data;
+  final User? data;
   final _patientController = StreamController<UserRepository>();
   Stream<UserRepository> get patient async* {
     yield* _patientController.stream;
@@ -45,7 +45,7 @@ class UserRepository extends Equatable {
   UserRepository copyWith({
     String? status,
     String? token,
-    Patient? data,
+    User? data,
   }) {
     return UserRepository(
       status: status ?? this.status,

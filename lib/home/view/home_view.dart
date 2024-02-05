@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:ayurcareprod/authentication/role.dart';
 
 import 'package:ayurcareprod/home/view/home_page.dart';
@@ -14,10 +17,12 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.read<AuthenticationBloc>().doctortoken == null) {
-      return const HomePage(role: Role.patient);
-    } else {
+    final pat= context.read<AuthenticationBloc>().pat?.token;
+  
+    if (pat == null) {
       return const HomePage(role: Role.doctor);
+    } else {
+      return const HomePage(role: Role.patient);
     }
   }
 }

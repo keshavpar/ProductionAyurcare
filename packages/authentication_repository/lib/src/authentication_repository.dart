@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:authentication_repository/src/data_stream.dart';
+import 'package:authentication_repository/src/service.dart';
 import 'package:http/http.dart' as http;
 import 'package:user_repository/user_repository.dart';
 
@@ -41,6 +43,10 @@ class AuthenticationRepository {
     switch (role) {
       //For Patient Login
       case 'patient':
+        final userStream = getIt<UserStream>();
+        userStream.patientUserStream.listen((event) {
+          log('$event Auth waale ram hai ');
+        });
         final response = await http.post(
           Uri.parse(url),
           headers: {'Content-Type': 'application/json; charset=utf-8'},
@@ -50,7 +56,7 @@ class AuthenticationRepository {
         if (response.statusCode == 200 || response.statusCode == 201) {
           final parsed =
               UserRepository.fromMap(result as Map<String, dynamic>?);
-          _patientController.add(parsed);
+          userStream.addPatientData(parsed);
           return _controller.add(AuthenticationStatus.authenticateduser);
         } else {
           log(response.body);
@@ -58,6 +64,10 @@ class AuthenticationRepository {
         }
       //For Doctor Login
       case 'doctor':
+        final userStream = getIt<UserStream>();
+        userStream.docUserStream.listen((event) {
+          log('$event Auth waale ram hai ');
+        });
         final response = await http.post(
           Uri.parse(url),
           headers: {'Content-Type': 'application/json; charset=utf-8'},
@@ -66,7 +76,7 @@ class AuthenticationRepository {
         final result = await jsonDecode(response.body);
         if (response.statusCode == 200 || response.statusCode == 201) {
           final parsed = Doc.fromMap(result as Map<String, dynamic>);
-          _docController.add(parsed);
+          userStream.addDoctorData(parsed);
           return _controller.add(AuthenticationStatus.authenticatedDoc);
         } else {
           log(response.body);
@@ -104,7 +114,7 @@ class AuthenticationRepository {
         if (response.statusCode == 200 || response.statusCode == 201) {
           final parsed = Doc.fromMap(result as Map<String, dynamic>);
           _docController.add(parsed);
-
+          getIt<UserStream>.call().addDoctorData(parsed);
           return _controller.add(AuthenticationStatus.authenticatedDoc);
         } else {
           log(response.body);
@@ -128,7 +138,7 @@ class AuthenticationRepository {
         if (response.statusCode == 200 || response.statusCode == 201) {
           final parsed =
               UserRepository.fromMap(result as Map<String, dynamic>?);
-          _patientController.add(parsed);
+          getIt<UserStream>.call().addPatientData(parsed);
           return _controller.add(AuthenticationStatus.authenticateduser);
         } else {
           log(response.body);

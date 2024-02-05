@@ -6,23 +6,23 @@ abstract class AuthenticationEvent {
 }
 
 class _AuthenticationUserStatusChanged extends AuthenticationEvent {
-  const _AuthenticationUserStatusChanged(
-    this.status,
-    this.user,
-  );
+  const _AuthenticationUserStatusChanged({
+    required this.status,
+    required this.user
+  });
 
   final AuthenticationStatus status;
-  final UserRepository? user;
+  final UserRepository user;
 }
 
-// class _AuthenticationDoctorStatusChanged extends AuthenticationEvent {
-//   const _AuthenticationDoctorStatusChanged(
-//     this.status,
-//     this.doc,
-//   );
+class _AuthenticationDoctorStatusChanged extends AuthenticationEvent {
+  const _AuthenticationDoctorStatusChanged(
 
-//   final AuthenticationStatus status;
-//   final Doctor? doc;
-// }
+    this.doctor,
+  );
+
+
+  final Doc? doctor;
+}
 
 class AuthenticationLogoutRequested extends AuthenticationEvent {}

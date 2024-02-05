@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:developer';
 
 import 'package:authentication_repository/authentication_repository.dart';
 
@@ -14,7 +14,7 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationRepository _authenticationRepository;
   final UserRepository userRepository;
-
+  final userStream = getIt<UserStream>();
   late StreamSubscription<AuthenticationStatus>
       _authenticationStatusSubscription;
   late StreamSubscription<UserRepository> patientStreamRepo;
@@ -30,18 +30,18 @@ class AuthenticationBloc
         userRepository = patientRepository,
         super(const AuthenticationState.unknown()) {
     on<_AuthenticationUserStatusChanged>(_onAuthenticationUserStatusChanged);
-    on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
-
+    // Code when the user logs out has to be added
+    // on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
-      (status) => add(_AuthenticationUserStatusChanged(status, pat)),
+      (status) => add(_AuthenticationUserStatusChanged(
+          status: status, user: userRepository)),
     );
-
-    patientStreamRepo = _authenticationRepository.patient.listen((event) {
-      pat = event;
-    });
-
-    doctorStream = _authenticationRepository.doc.listen((event) {
+    getIt<UserStream>().docUserStream.listen((event) {
+      log(event.toString());
       doctortoken = event;
+    });
+    userStream.patientUserStream.listen((event) {
+      pat = event;
     });
   }
 
@@ -65,12 +65,12 @@ class AuthenticationBloc
               ? AuthenticationState.authenticatedUser(user)
               : const AuthenticationState.unauthenticated(),
         );
+
       case AuthenticationStatus.unknown:
         return emit(const AuthenticationState.unknown());
       case AuthenticationStatus.authenticatedDoc:
-
         final doctorToken = doctortoken;
-
+  
         return emit(
           doctorToken != null
               ? AuthenticationState.authenticatedDoc(doctorToken)
@@ -78,11 +78,11 @@ class AuthenticationBloc
         );
     }
   }
-
-  void _onAuthenticationLogoutRequested(
-    AuthenticationLogoutRequested event,
-    Emitter<AuthenticationState> emit,
-  ) {
-    _authenticationRepository.logOut();
-  }
 }
+
+// void _onAuthenticationLogoutRequested(
+//   AuthenticationLogoutRequested event,
+//   Emitter<AuthenticationState> emit,
+// ) {
+//   _authenticationRepository.logOut();
+// }
